@@ -143,6 +143,21 @@ if($_POST['change_type_phone2']){
         echo $e->getMessage() . ':(';
     }
 }
+if($_POST['add']){
+    $name = $_POST['name'];
+    $age = $_POST['age'];
+    $phone = $_POST['phone'];
+
+    try {
+        $db = new DB($db_host, $db_user, $db_password, $db_name);
+        $db->query("INSERT INTO `$nameGet` (name, age, phone) VALUES ('$name', '$age', '$phone');");
+    } catch (Exception $e) {
+        echo $e->getMessage() . ':(';
+    }
+
+
+    header("Location: table.php?nameTab=$nameGet");
+}
 
 
 ?>
@@ -181,6 +196,7 @@ if($_POST['change_type_phone2']){
 <form method="POST">
     Выберите:
     <select name="change_id">
+        <option value="0"> </option>
         <?php
         foreach ($tables as $table) {
             ?>
@@ -189,13 +205,14 @@ if($_POST['change_type_phone2']){
         }
         ?>
     </select> <b>id</b> <input type="submit" name="del" value="Удалить"><br>
-    <input type="text" name="name" placeholder="изменить колонку name"><br>
+    <input type="text" name="name" placeholder="колонка name"> <input type="submit" name="change" value="Изменить"><br>
     <form method="POST">
         <b>Тип:</b>
         <select name="change_type_name">
             <?php
             foreach ($types as $type) {
                 ?>
+                <option value="0"> </option>
                 <option value="<?= $type; ?>"><?= $type; ?></option>
                 <?php
             }
@@ -249,13 +266,14 @@ if($_POST['change_type_phone2']){
         <input type="text" name="long" placeholder="Длина значений:">
         <input type="submit" name="change_type_name2" value="Изменить">
     </form>
-    <input type="text" name="age" placeholder="изменить колонку age">
+    <input type="text" name="age" placeholder="колонка age"> <input type="submit" name="change" value="Изменить">
     <form method="POST">
         <b>Тип:</b>
         <select name="change_type_age">
             <?php
             foreach ($types as $type) {
                 ?>
+                <option value="0"> </option>
                 <option value="<?= $type; ?>"><?= $type; ?></option>
                 <?php
             }
@@ -309,13 +327,14 @@ if($_POST['change_type_phone2']){
         <input type="text" name="long" placeholder="Длина значений:">
         <input type="submit" name="change_type_age2" value="Изменить">
     </form>
-    <input type="text" name="phone" placeholder="изменить колонку phone">
+    <input type="text" name="phone" placeholder="колонка phone"> <input type="submit" name="change" value="Изменить">
     <form method="POST">
         <b>Тип:</b>
         <select name="change_type_phone">
             <?php
             foreach ($types as $type) {
                 ?>
+                <option value="0"> </option>
                 <option value="<?= $type; ?>"><?= $type; ?></option>
                 <?php
             }
@@ -370,7 +389,14 @@ if($_POST['change_type_phone2']){
         <input type="submit" name="change_type_phone2" value="Изменить">
     </form>
     <br>
-    <input type="submit" name="change" value="Изменить">
+</form>
+<br>
+<h3>форма для добавления</h3>
+<form method="POST">
+    <input type="text" name="name" placeholder="Колонка name">
+    <input type="text" name="age" placeholder="Колонка age">
+    <input type="text" name="phone" placeholder="Колонка phone">
+    <input type="submit" name="add" value="Добавить">
 </form>
 </body>
 </html>
